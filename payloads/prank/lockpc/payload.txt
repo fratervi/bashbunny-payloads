@@ -15,27 +15,30 @@ LED SETUP
 OS="FAIL3"
 CUCUMBER ENABLE
 GET_OS OS
+echo "$OS" > /root/udisk/loot/OS.txt
 msg_header="begining"
 msg_body="I will learn to lock my computer"
 msg_body_repeats=50
 msg_end="Please remember to lock your computer when you walk away."
+
 ATTACKMODE HID
 
 LED ATTACK
-
+Q DELAY 500
 case "$OS" in
 	"LINUX") RUN UNITY gedit
 		;;
 	"MAC") RUN OSX TextEdit
 		;;
-	"WIN") RUN WIN notepad.exe
+	"WIN") Q DELAY 3000
+		RUN WIN notepad.exe
 		;;
 	"FAIL3") LED FAIL3
 		exit 1
 		umount /root/udisk
 		;;
 esac
-Q DELAY 200		
+Q DELAY 1000		
 Q STRING $msg_header
 Q ENTER
 
@@ -54,8 +57,8 @@ case "$OS" in
 	"WIN") Q GUI l
 		;;
 	"FAIL3") LED FAIL3
-		exit 1
 		umount /root/udisk
+		exit 1
 		;;
 esac
 

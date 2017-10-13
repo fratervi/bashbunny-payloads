@@ -28,7 +28,7 @@ function GET_OS {
 		OS="LINUX"
 	fi
 	nmap -O -sV --osscan-guess $TARGET_IP > /root/udisk/loot/nmap_results.log
-	grep -i 'linux' /root/udisk/loot/nmap_results.log
+	grep -v 'unknown-linux' /root/udisk/loot/nmap_results.log | grep -i 'linux'
 	RES=$?
 	if [ $RES -eq 0 ]; then
 		export OS='LINUX'
@@ -41,9 +41,9 @@ function GET_OS {
 			grep -i 'windows' /root/udisk/loot/nmap_results.log
 			RES=$?
 			if [ $RES -eq 0 ]; then
-				OS='WIN'
+				OS="WIN"
 			else
-				OS='FAIL3'
+				OS="FAIL3"
 			fi
 		fi
 	fi
