@@ -1,0 +1,64 @@
+#
+#
+# Title:             PC Lock Fun
+# Original Authors:            The10FpsGuy and Mrhut10
+#                    Big thanks to Mrhut10 for helping to put a loop in it :D
+# Modified:	     FraterVI
+# Category:          Fun
+# Target:.           Windows, Linux, Mac
+# Description:	     Takes original prank payload and adds OS detection so
+#		     it can be run on any(mostly any) OS.
+#
+#options
+mount -o /dev/nandf /root/udisk
+LED SETUP
+OS="FAIL3"
+CUCUMBER ENABLE
+GET_OS OS
+msg_header="begining"
+msg_body="I will learn to lock my computer"
+msg_body_repeats=50
+msg_end="Please remember to lock your computer when you walk away."
+ATTACKMODE HID
+
+LED ATTACK
+
+case "$OS" in
+	"LINUX") RUN UNITY gedit
+		;;
+	"MAC") RUN OSX TextEdit
+		;;
+	"WIN") RUN WIN notepad.exe
+		;;
+	"FAIL3") LED FAIL3
+		exit 1
+		umount /root/udisk
+		;;
+esac
+Q DELAY 200		
+Q STRING $msg_header
+Q ENTER
+
+for (( i=1; i<=$msg_body_repeats; i++ ))
+do
+   Q STRING $msg_body
+   Q ENTER
+done
+Q STRING $msg_end
+Q ENTER
+case "$OS" in
+	"LINUX") Q GUI l
+		;;
+	"MAC") RUN OSX "/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend"
+		;;
+	"WIN") Q GUI l
+		;;
+	"FAIL3") LED FAIL3
+		exit 1
+		umount /root/udisk
+		;;
+esac
+
+LED CLEANUP
+umount /root/udisk
+LED FINISH
