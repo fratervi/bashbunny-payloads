@@ -1,0 +1,3 @@
+Tested on Tom's macbook pro - it detected the OS correctly, but did not open the text editor and did not lock the desktop.
+
+Need to add VID and PID for mac os attack.

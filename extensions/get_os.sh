@@ -9,12 +9,12 @@
 # Attackmodes: ECM_ETHERNET and RNDIS_ETHERNET
 
 function GET_OS {
-	ATTACKMODE ECM_ETHERNET
+	ATTACKMODE RNDIS_ETHERNET
 	QUACK DELAY 3000
 	GET TARGET_IP
 	if [ -z "${TARGET_IP}" ]; then
 		echo "No Target IP" > /dev/null
-		ATTACKMODE RNDIS_ETHERNET
+		ATTACKMODE ECM_ETHERNET
 		QUACK DELAY 3000
 		GET TARGET_IP
 		if [ -z "${TARGET_IP}" ]; then
@@ -22,31 +22,29 @@ function GET_OS {
 			OS=FAIL3
 			exit 1
 		else
-			OS="WIN"
+			export OS="FAIL3"
 		fi
 	else
-		OS="LINUX"
+		export OS="WIN"
 	fi
-	nmap -O -sV --osscan-guess $TARGET_IP > /root/udisk/loot/nmap_results.log
-	grep -v 'unknown-linux' /root/udisk/loot/nmap_results.log | grep -i 'linux'
-	RES=$?
-	if [ $RES -eq 0 ]; then
-		export OS='LINUX'
-	else
-		grep -v 'MAC Address' /root/udisk/loot/nmap_results.log |grep -i 'mac'
-		RES=$?
-		if [ $RES -eq 0 ]; then
-			OS='MAC'
-		else
-			grep -i 'windows' /root/udisk/loot/nmap_results.log
+	case $OS in
+		"FAIL3")
+			nmap -O -sV --osscan-guess $TARGET_IP > /root/udisk/loot/nmap_results.log
+			grep -v 'unknown-linux' /root/udisk/loot/nmap_results.log | grep -i 'linux'
 			RES=$?
 			if [ $RES -eq 0 ]; then
-				OS="WIN"
+				export OS='LINUX'
 			else
-				OS="FAIL3"
+				grep -v 'MAC Address' /root/udisk/loot/nmap_results.log |grep -i 'mac'
+				RES=$?
+				if [ $RES -eq 0 ]; then
+					OS='MAC'
+				else
+					OS="FAIL3"
+				fi
 			fi
-		fi
-	fi
+			;;
+	esac
 }
 
 export -f GET_OS

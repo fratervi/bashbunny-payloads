@@ -13,15 +13,18 @@
 mount -o /dev/nandf /root/udisk
 LED SETUP
 OS="FAIL3"
-CUCUMBER ENABLE
+#CUCUMBER ENABLE
 GET_OS OS
 echo "$OS" > /root/udisk/loot/OS.txt
 msg_header="begining"
 msg_body="I will learn to lock my computer"
 msg_body_repeats=50
 msg_end="Please remember to lock your computer when you walk away."
-
 ATTACKMODE HID
+case "$OS" in
+	"MAC") ATTACKMODE HID VID_0x05AC PID_0x021E
+		;;
+esac
 
 LED ATTACK
 Q DELAY 500
