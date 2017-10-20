@@ -37,8 +37,8 @@ case "$OS" in
 		RUN WIN notepad.exe
 		;;
 	"FAIL3") LED FAIL3
-		exit 1
 		umount /root/udisk
+		exit 1
 		;;
 esac
 Q DELAY 1000		

@@ -1,0 +1,18 @@
+#!/bin/bash
+#
+# Title:         DTTY for Bash Bunny
+# Author:        fratervi
+# Version:       1.0
+#
+# Uses a dictionary file to attempt TTY access as root
+# 
+#
+# Red ...........Setup
+# Amber..........Attacking
+# Green..........Finished
+# 
+# Loot Directory will contain last password attempted
+LED SETUP
+ATTACKMODE SERIAL VID_0x067B PID_0x2303 REV_0x0300
+LED FINISH
+LED B SLOW
