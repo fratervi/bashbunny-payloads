@@ -20,20 +20,17 @@ msg_header="begining"
 msg_body="I will learn to lock my computer"
 msg_body_repeats=50
 msg_end="Please remember to lock your computer when you walk away."
-ATTACKMODE HID
-case "$OS" in
-	"MAC") ATTACKMODE HID VID_0x05AC PID_0x021E
-		;;
-esac
 
 LED ATTACK
 Q DELAY 500
 case "$OS" in
-	"LINUX") RUN UNITY gedit
+	"LINUX")ATTACKMODE HID
+		RUN UNITY gedit
 		;;
-	"MAC") RUN OSX TextEdit
+	"MAC")	ATTACKMODE HID VID_0x05AC PID_0x021E
+		RUN OSX terminal
 		;;
-	"WIN") Q DELAY 3000
+	"WIN")	ATTACKMODE HID
 		RUN WIN notepad.exe
 		;;
 	"FAIL3") LED FAIL3
@@ -55,7 +52,8 @@ Q ENTER
 case "$OS" in
 	"LINUX") Q GUI l
 		;;
-	"MAC") RUN OSX "/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend"
+	"MAC") Q STRING "/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend"
+		Q ENTER
 		;;
 	"WIN") Q GUI l
 		;;
